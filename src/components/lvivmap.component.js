@@ -10,35 +10,28 @@ import rd3 from "react-d3-library";
 import { queue } from "d3-queue";
 import "./lvivmap.styles.css";
 
-// export default class LvivMap extends Component {
-
-//   render() {
-
-//     return (
-
-//       <div className="App">
-//           <div id="my_dataviz"></div>
-//         </div>
-//   );
-//   }
-
-// }
-
 export default function LvivMap(props) {
   const ref = useRef();
   useEffect(() => {
     // const [mapD3, setMapD3] = useState();
-
+    console.log("ref");
     const node = ref.current; // document.createElement("div");
 
     var mw = 500; // map container width
     var mh = 600; // map container height
     var main_chart_svg = d3.select(node);
 
-    // var legend_svg = d3.select("#legend_container").append("svg").attr({
+    var legend_svg2 = d3.select("#legend_container");
+    // .append("svg").attr({
     //   width: 200,
     //   height: 600,
     // });
+    // .html("<svg width='120' height='600'/>");
+    console.log(1, legend_svg2);
+    var legend_svg = d3.select("#legend_container").append("svg").attr({
+      width: 200,
+      height: 600,
+    });
 
     var hue = "g"; /* b=blue, g=green, r=red colours - from ColorBrewer */
 
@@ -112,60 +105,61 @@ export default function LvivMap(props) {
     var scale = 3; /* maximum size to zoom county */
 
     var format = ie.numberFormat("$, #,##0d");
-
     /* Thanks to http://stackoverflow.com/users/3128209/ameliabr for tips on creating a quantized legend */
-    // var legend = legend_svg
-    //   .selectAll("g.legendEntry")
-    //   .data(quantize.range())
-    //   .enter()
-    //   .append("g")
-    //   .attr("class", "legendEntry");
+    var legend = legend_svg
+      .selectAll("g.legendEntry")
+      .data(quantize.range())
+      .enter()
+      .append("g")
+      .attr("class", "legendEntry");
 
-    // legend
-    //   .append("rect")
-    //   .attr("x", 20)
-    //   .attr("y", function (d, i) {
-    //     return i * 25 + 20;
-    //   })
-    //   .attr("width", 15)
-    //   .attr("height", 15)
-    //   .attr("class", function (d) {
-    //     return d;
-    //   })
-    //   .style("stroke", "black")
-    //   .style("stroke-width", 1)
-    //   .on("click", function (d) {
-    //     if (lastActive == "") {
-    //       resetAll();
-    //       d3.select(ireland)
-    //         .selectAll("." + d)
-    //         .attr(
-    //           "class",
-    //           "highlight"
-    //         ); /* Highlight all counties in range selected */
-    //     }
-    //   });
+    legend
+      .append("rect")
+      .attr("x", 20)
+      .attr("y", function (d, i) {
+        return i * 25 + 20;
+      })
+      .attr("width", 15)
+      .attr("height", 15)
+      .attr("class", function (d) {
+        return d;
+      })
+      .style("stroke", "black")
+      .style("stroke-width", 1)
+      .on("click", function (d) {
+        if (lastActive == "") {
+          resetAll();
+          d3.select(ireland)
+            .selectAll("." + d)
+            .attr(
+              "class",
+              "highlight"
+            ); /* Highlight all counties in range selected */
+        }
+      });
 
-    // legend
-    //   .append("text")
-    //   .attr("x", 40) //leave 5 pixel space after the <rect>
-    //   .attr("y", function (d, i) {
-    //     return i * 25 + 20;
-    //   })
-    //   .attr("dy", "0.8em") //place text one line *below* the x,y point
-    //   .text(function (d, i) {
-    //     var extent = quantize.invertExtent(d);
-    //     //extent will be a two-element array, format it however you want:
-    //     return format(extent[0]) + " - " + format(+extent[1]);
-    //   })
-    //   .style("font-family", "sans-serif")
-    //   .style("font-size", "12px");
+    legend
+      .append("text")
+      .attr("x", 40) //leave 5 pixel space after the <rect>
+      .attr("y", function (d, i) {
+        return i * 25 + 20;
+      })
+      .attr("dy", "0.8em") //place text one line *below* the x,y point
+      .text(function (d, i) {
+        var extent = quantize.invertExtent(d);
+        //extent will be a two-element array, format it however you want:
+        return format(extent[0]) + " - " + format(+extent[1]);
+      })
+      .style("font-family", "sans-serif")
+      .style("font-size", "12px");
 
     /* Data has key "county" and value "rental" - i.e. average rental price per county */
+    console.log("queue");
     queue()
       .defer(
         d3.csv,
-        "https://gist.githubusercontent.com/Gordion/7fdbf9c919564fc1773622cbd552060f/raw/15c6efd7a35c10469674b7ff735c1a05cb8fa9af/rentals-2015-bycounty.csv",
+        // "https://gist.githubusercontent.com/Gordion/7fdbf9c919564fc1773622cbd552060f/raw/15c6efd7a35c10469674b7ff735c1a05cb8fa9af/rentals-2015-bycounty.csv",
+        "https://gist.githubusercontent.com/Gordion/038bb3fb3e275987c16b4134e5b0db7a/raw/708e93688d399c8812b3bccaed77c1d4c5010fe6/Covid280122.csv",
         data
       )
       .await(ready);
@@ -174,20 +168,23 @@ export default function LvivMap(props) {
       if (error) throw error;
 
       d3.map(data, function (d) {
-        rateById.set(d.county, +d.rental);
+        // rateById.set(d.county, +d.rental);
+        rateById.set(d.region, +d.amount);
       }); /* create the data map */
 
       d3.xml(
-        "https://gist.githubusercontent.com/Gordion/9effa1d8e6e4051b49a983fedd8fb1f0/raw/6c581f5facecdd0887491a62a43a2b038956b5ea/ireland.svg",
+        // "https://gist.githubusercontent.com/Gordion/9effa1d8e6e4051b49a983fedd8fb1f0/raw/6c581f5facecdd0887491a62a43a2b038956b5ea/ireland.svg",
+        "https://gist.githubusercontent.com/Gordion/c8a9d421acf282e764cdd21eade29e7c/raw/bee765bf0197638f486609f9f0650428a93174b2/Lviv_location_map.svg",
         "image/svg+xml",
         function (error, xml) {
+          console.log(xml);
           /* embed the SVG map */
           if (error) throw error;
 
-          // var countyTable = tabulate(data, [
-          //   "county",
-          //   "rental",
-          // ]); /* render the data table */
+          var countyTable = tabulate(data, [
+            "Region",
+            "Amount",
+          ]); /* render the data table */
 
           var svgMap =
             xml.getElementsByTagName("g")[0]; /* set svgMap to root g */
@@ -196,38 +193,42 @@ export default function LvivMap(props) {
             .node()
             .appendChild(svgMap); /* island of Ireland map */
 
-          d3.select(ireland)
-            .selectAll("#NI") /* Group Northern Ireland together */
-            .attr("class", "region NI");
+          // d3.select(ireland)
+          //   //.selectAll("#NI") /* Group Northern Ireland together */
+          //   .selectAll("#g4971")
+          //   .attr("class", "region NI");
 
           d3.select(ireland)
-            .selectAll("#republic") /* Group Republic of Ireland together */
+            //.selectAll("#republic") /* Group Republic of Ireland together */
+            .selectAll("#g3779")
             .attr("class", "region republic");
 
           d3.select(ireland)
-            .selectAll("#republic")
+            // .selectAll("#republic")
             .selectAll("path") /* Map Republic counties to rental data */
             .attr("class", function (d) {
+              console.log("test", rateById.get(this.id));
               return quantize(rateById.get(this.id));
             })
             .append("title")
             .text(function (d) {
-              /* add title = name of each county and average rental */ return (
-                this.parentNode.id +
-                ", " +
-                format(rateById.get(this.parentNode.id))
-              );
+              /* add title = name of each county and average rental */ return this
+                .parentNode.id; //+
+              // ", " +
+              // format(rateById.get(this.parentNode.id))
             });
 
           d3.select(ireland)
-            .selectAll("#republic")
+            // .selectAll("#republic")
             .selectAll("path")
             .on("mouseover", function (d) {
+              console.log("mouseover", d);
               if (d3.select(this).classed("active"))
                 return; /* no need to change class when county is already selected */
               d3.select(this).attr("class", "hover");
             })
             .on("mouseout", function (d) {
+              console.log("mouseout", d);
               if (d3.select(this).classed("active")) return;
               d3.select(this).attr("class", function (d) {
                 /* reset county color to quantize range */ return quantize(
@@ -241,7 +242,7 @@ export default function LvivMap(props) {
 
           /* Let's add an id to each group that wraps a path */
           d3.select(ireland)
-            .selectAll("#republic")
+            // .selectAll("#republic")
             .selectAll("path")
             .each(function (d) {
               d3.select(this.parentNode).attr("id", this.id);
@@ -249,7 +250,7 @@ export default function LvivMap(props) {
 
           /* Now add a text box to the group with content equal to the id of the group */
           d3.select(ireland)
-            .selectAll("#republic")
+            // .selectAll("#republic")
             .selectAll("g")
             .append("svg:text")
             .text(function (d) {
@@ -281,49 +282,51 @@ export default function LvivMap(props) {
     /* Thanks to http://bl.ocks.org/phil-pedruco/7557092 for the table code */
     /* and style - and what a coincidence he also used a map of Ireland!	*/
 
-    // function tabulate(data, columns) {
-    //   var table = d3.select("#table_container").append("table");
-    //   (thead = table.append("thead")), (tbody = table.append("tbody"));
+    function tabulate(data, columns) {
+      console.log("data", data);
+      var table = d3.select("#table_container").html("table");
+      const thead = table.append("thead");
+      const tbody = table.append("tbody");
 
-    //   // append the header row
-    //   thead
-    //     .append("tr")
-    //     .selectAll("th")
-    //     .data(columns)
-    //     .enter()
-    //     .append("th")
-    //     .text(function (column) {
-    //       return column;
-    //     });
+      // append the header row
+      thead
+        .append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+        .text(function (column) {
+          return column;
+        });
 
-    //   // create a row for each object in the data
-    //   var rows = tbody
-    //     .selectAll("tr")
-    //     .data(data)
-    //     .enter()
-    //     .append("tr")
-    //     .on("click", function (d) {
-    //       tableRowClicked(d);
-    //     });
+      // create a row for each object in the data
+      var rows = tbody
+        .selectAll("tr")
+        .data(data)
+        .enter()
+        .append("tr")
+        .on("click", function (d) {
+          tableRowClicked(d);
+        });
 
-    //   // create a cell in each row for each column
-    //   var cells = rows
-    //     .selectAll("td")
-    //     .data(function (row) {
-    //       return columns.map(function (column) {
-    //         return { column: column, value: row[column] };
-    //       });
-    //     })
-    //     .enter()
-    //     .append("td")
-    //     //        .attr("style", "font-family: Courier") // sets the font style
-    //     .html(function (d) {
-    //       if (d.column == "rental") return format(d.value);
-    //       else return d.value;
-    //     });
+      // create a cell in each row for each column
+      var cells = rows
+        .selectAll("td")
+        .data(function (row) {
+          return columns.map(function (column) {
+            return { column: column, value: row[column] };
+          });
+        })
+        .enter()
+        .append("td")
+        //        .attr("style", "font-family: Courier") // sets the font style
+        .html(function (d) {
+          if (d.column == "Amount") return format(d.value);
+          else return d.value;
+        });
 
-    //   return table;
-    // }
+      return table;
+    }
 
     function zoomed(d) {
       /* Thanks to http://complextosimple.blogspot.ie/2012/10/zoom-and-center-with-d3.html 	*/
@@ -386,7 +389,7 @@ export default function LvivMap(props) {
     function resetAll() {
       /* resets the color of all counties */
       d3.select(ireland)
-        .selectAll("#republic")
+        // .selectAll("#republic")
         .selectAll("path")
         .attr("class", function (d) {
           return quantize(rateById.get(this.id));
@@ -420,5 +423,25 @@ export default function LvivMap(props) {
 
   // const RD3Component = rd3.Component;
 
-  return <svg ref={ref} width="500" height="600" />;
+  return (
+    // <div>
+    //   <div id="table_container" class="csvTable"></div>
+    //   <svg ref={ref} width="1500" height="1500" />
+    // </div>
+    <div>
+      <table border="0" cellpadding="10">
+        <tr>
+          <td>
+            <div id="table_container" class="csvTable"></div>
+          </td>
+          <td>
+            <svg ref={ref} width="1500" height="1500" />
+          </td>
+          <td>
+            <div id="legend_container"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  );
 }
