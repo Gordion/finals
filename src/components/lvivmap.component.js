@@ -8,7 +8,7 @@ import Card from "react-bootstrap/Card";
 import * as d3 from "d3";
 import rd3 from "react-d3-library";
 import { queue } from "d3-queue";
-// import "./style.css";
+import "./lvivmap.styles.css";
 
 // export default class LvivMap extends Component {
 
@@ -33,10 +33,7 @@ export default function LvivMap(props) {
 
     var mw = 500; // map container width
     var mh = 600; // map container height
-    var main_chart_svg = d3.select(node).append("svg").attr({
-      width: mw,
-      height: mh,
-    });
+    var main_chart_svg = d3.select(node);
 
     // var legend_svg = d3.select("#legend_container").append("svg").attr({
     //   width: 200,
