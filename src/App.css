@@ -1,5 +1,8 @@
-html, body, #app, #app>div {
-  height: 100%
+html,
+body,
+#app,
+#app > div {
+  height: 100%;
 }
 
 .App {
@@ -11,7 +14,6 @@ html, body, #app, #app>div {
 .App-logo {
   height: 60%;
   pointer-events: none;
-
 }
 
 .App-body {
@@ -20,9 +22,7 @@ html, body, #app, #app>div {
   align-items: flex-start;
 }
 
-
 .App-city {
-
   height: 125vh;
   display: flex;
   /* flex-direction: column; */
@@ -34,9 +34,9 @@ html, body, #app, #app>div {
   margin-top: 50px;
 }
 
-.footer{
+.footer {
   padding: 5px;
-  background-color: #2980b9!important;
+  background-color: #2980b9 !important;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -75,7 +75,7 @@ html, body, #app, #app>div {
 }
 
 .navbar {
-  background-color: #2980b9!important;
+  background-color: #2980b9 !important;
 }
 
 .sidebar {
@@ -88,7 +88,7 @@ html, body, #app, #app>div {
 }
 
 .sidetext {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -111,12 +111,12 @@ html, body, #app, #app>div {
 }
 
 .color-bad {
-  color:red;
+  color: red;
 }
 
 .App-body-news {
   width: 100%;
-  margin-bottom: 120px; 
+  margin-bottom: 120px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -138,7 +138,7 @@ html, body, #app, #app>div {
 }
 
 .mt-4 {
-  background-color: #2980b9!important;
+  background-color: #2980b9 !important;
 }
 
 .App-form {
@@ -146,4 +146,16 @@ html, body, #app, #app>div {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.App-table {
+  display: flex;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.wrapper {
+  width: 100% !important;
 }

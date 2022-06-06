@@ -1,6 +1,6 @@
 /* style.css */
 .region/*.republic*/ {
-  fill: #fee391 !important;
+  fill: #fee391;
   stroke: #333 !important;
   stroke-width: 1px !important;
 }
@@ -111,13 +111,41 @@ rect {
   fill: rgb(0, 68, 27);
 }
 
+.g0-9 {
+  fill: rgb(255, 245, 240) !important;
+}
+.g1-9 {
+  fill: rgb(254, 224, 210) !important;
+}
+.g2-9 {
+  fill: rgb(252, 187, 161) !important;
+}
+.g3-9 {
+  fill: rgb(252, 146, 114) !important;
+}
+.g4-9 {
+  fill: rgb(251, 106, 74) !important;
+}
+.g5-9 {
+  fill: rgb(239, 59, 44) !important;
+}
+.g6-9 {
+  fill: rgb(203, 24, 29) !important;
+}
+.g7-9 {
+  fill: rgb(165, 15, 21) !important;
+}
+.g8-9 {
+  fill: rgb(103, 0, 13) !important;
+}
+
 .text {
   stroke: #333;
   text-anchor: middle;
   font-family: "sans-serif";
   stroke-width: 0.5;
   fill: #333;
-  font-size: 10pt;
+  font-size: 15pt;
 }
 
 .csvTable table {
@@ -128,33 +156,56 @@ rect {
 
 .table-container {
   /* width: 100px;
+  
   height: 100px; */
 }
 
 .csvTable {
-  font: normal 12px/120% Arial, Helvetica, sans-serif;
+  font: normal 20px/120% Arial, Helvetica, sans-serif;
   background: #fff;
   overflow: hidden;
-  border: 1px solid #063;
+  border: 2px solid #2980b9;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  /* height: 100px; */
+  /* height: 195px; */
+  /* width: 206px; */
+  margin: 50px;
 }
 
-.csvTable table td,
-.csvTable table th {
+td,
+th {
   padding: 3px 10px;
+  border-left: 1px solid #e1eef4;
+  border-top: 1px solid #e1eef4;
 }
 
 .csvTable table thead th {
   background: 0;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699',endColorstr='#00557F');
-  background-color: #006d2c;
+  background-color: #2980b9;
   color: #fff;
-  font-size: 15px;
+  font-size: 25px;
   font-weight: 700;
   border-left: 1px solid #0070a8;
+}
+
+thead {
+  background: 0;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699',endColorstr='#00557F');
+  background-color: #2980b9;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 700;
+  border-left: 1px solid #0070a8;
+}
+
+tbody {
+  color: #2980b9; /* #00496B */
+  border-left: 1px solid #e1eef4;
+  font-size: 25px;
+  border-bottom: 1px solid #e1eef4;
+  font-weight: 400;
 }
 
 .csvTable table thead th:first-child {
@@ -162,9 +213,9 @@ rect {
 }
 
 .csvTable table tbody td {
-  color: #006633; /* #00496B */
+  color: #2980b9; /* #00496B */
   border-left: 1px solid #e1eef4;
-  font-size: 12px;
+  font-size: 25px;
   border-bottom: 1px solid #e1eef4;
   font-weight: 400;
 }
@@ -178,6 +229,55 @@ rect {
 }
 
 .csvTable tr:hover td {
-  background-color: #063;
+  background-color: #2980b9;
   color: white;
+}
+
+.App-table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* margin-left: -10% !important; */
+  /* margin: 50px; */
+}
+
+.column-map {
+  display: flex;
+  flex-direction: column;
+  margin-left: -10%;
+}
+
+#Sambir {
+  text-align: center;
+}
+
+#Poland_border {
+  display: none;
+}
+
+#Zakarpatkaya_oblast_border {
+  display: none;
+}
+
+#legend_container > svg:nth-child(2) {
+  display: none;
+}
+
+/* #legend_container > svg:nth-child(1) {
+  border: 1px solid #2980b9;
+  background-color: white;
+  height: 250px;
+  width: 180px;
+} */
+
+.legendEntry {
+  font: normal 20px/120% Arial, Helvetica, sans-serif;
+}
+
+.App-svg {
+  /* width: 50%;
+  height: 50%; */
+  margin-left: -5%;
+  margin-top: 2%;
 }

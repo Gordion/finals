@@ -22,6 +22,7 @@ import UserPage from "./components/user-page.component";
 import Homepage from "./components/homepage.component";
 import News from "./components/news.component";
 import LvivMap from "./components/lvivmap.component";
+import CovidStat from "./components/covid-statistic.component";
 import UseOfEnglish from "./components/use-of-english.component";
 import Reading from "./components/reading.component";
 import Listening from "./components/listening.component";
@@ -67,7 +68,7 @@ function App() {
                 </Link>
               </Navbar.Brand>
               <Navbar.Brand>
-                <Link to={"/use-of-english"} className="nav-link">
+                <Link to={"/covid-statistic"} className="nav-link">
                   Захворюваність
                 </Link>
               </Navbar.Brand>
@@ -168,6 +169,11 @@ function App() {
                   />
 
                   <Route path="/news" element={<News authed={true} />} />
+
+                  <Route
+                    path="/covid-statistic"
+                    element={<CovidStat authed={true} />}
+                  />
 
                   <Route path="/lvivmap" element={<LvivMap authed={true} />} />
 

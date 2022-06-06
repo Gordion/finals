@@ -13,45 +13,34 @@ import "./lvivmap.styles.css";
 export default function LvivMap(props) {
   const ref = useRef();
   useEffect(() => {
-    // const [mapD3, setMapD3] = useState();
     console.log("ref");
-    const node = ref.current; // document.createElement("div");
+    const node = ref.current;
 
-    var mw = 500; // map container width
-    var mh = 600; // map container height
+    var mw = 500;
+    var mh = 600;
     var main_chart_svg = d3.select(node);
 
-    var legend_svg2 = d3.select("#legend_container");
-    // .append("svg").attr({
-    //   width: 200,
-    //   height: 600,
-    // });
-    // .html("<svg width='120' height='600'/>");
-    console.log(1, legend_svg2);
     var legend_svg = d3.select("#legend_container").append("svg").attr({
       width: 200,
       height: 600,
     });
 
-    var hue = "g"; /* b=blue, g=green, r=red colours - from ColorBrewer */
+    var hue = "g";
 
-    /* break the data values into 9 ranges of €100 each   */
-    /* max and min values already known so 400-1300 works */
     var quantize = d3.scale
       .quantize()
-      .domain([400, 1300])
+      .domain([0, 900])
       .range(
         d3.range(9).map(function (i) {
           return hue + i + "-9";
         })
       );
 
-    /* declare locale so we can format values with euro symbol */
     var ie = d3.locale({
       decimal: ".",
       thousands: ",",
       grouping: [3],
-      currency: ["€", ""],
+      currency: ["", ""],
       dateTime: "%a %b %e %X %Y",
       date: "%d/%m/%Y",
       time: "%H:%M:%S",
@@ -101,11 +90,10 @@ export default function LvivMap(props) {
     var lastActive = "";
     var ireland;
     var data;
-    var defaultScale = 0.6; /* default scale of map - fits nicely on standard screen */
-    var scale = 3; /* maximum size to zoom county */
+    var defaultScale = 0.6;
+    var scale = 3;
 
     var format = ie.numberFormat("$, #,##0d");
-    /* Thanks to http://stackoverflow.com/users/3128209/ameliabr for tips on creating a quantized legend */
     var legend = legend_svg
       .selectAll("g.legendEntry")
       .data(quantize.range())
@@ -151,7 +139,7 @@ export default function LvivMap(props) {
         return format(extent[0]) + " - " + format(+extent[1]);
       })
       .style("font-family", "sans-serif")
-      .style("font-size", "12px");
+      .style("font-size", "20px");
 
     /* Data has key "county" and value "rental" - i.e. average rental price per county */
     console.log("queue");
@@ -167,9 +155,12 @@ export default function LvivMap(props) {
     function ready(error, data) {
       if (error) throw error;
 
+      console.log("data", data);
       d3.map(data, function (d) {
         // rateById.set(d.county, +d.rental);
-        rateById.set(d.region, +d.amount);
+        console.log(d.region, +d.amount);
+        rateById.set(d.Region, +d.Amount);
+        console.log(rateById);
       }); /* create the data map */
 
       d3.xml(
@@ -219,21 +210,17 @@ export default function LvivMap(props) {
             });
 
           d3.select(ireland)
-            // .selectAll("#republic")
             .selectAll("path")
             .on("mouseover", function (d) {
               console.log("mouseover", d);
-              if (d3.select(this).classed("active"))
-                return; /* no need to change class when county is already selected */
+              if (d3.select(this).classed("active")) return;
               d3.select(this).attr("class", "hover");
             })
             .on("mouseout", function (d) {
               console.log("mouseout", d);
               if (d3.select(this).classed("active")) return;
               d3.select(this).attr("class", function (d) {
-                /* reset county color to quantize range */ return quantize(
-                  rateById.get(this.id)
-                );
+                return quantize(rateById.get(this.id));
               });
             })
             .on("click", function (d) {
@@ -243,6 +230,7 @@ export default function LvivMap(props) {
           /* Let's add an id to each group that wraps a path */
           d3.select(ireland)
             // .selectAll("#republic")
+
             .selectAll("path")
             .each(function (d) {
               d3.select(this.parentNode).attr("id", this.id);
@@ -284,7 +272,7 @@ export default function LvivMap(props) {
 
     function tabulate(data, columns) {
       console.log("data", data);
-      var table = d3.select("#table_container").html("table");
+      var table = d3.select("#table_container").html("");
       const thead = table.append("thead");
       const tbody = table.append("tbody");
 
@@ -428,20 +416,25 @@ export default function LvivMap(props) {
     //   <div id="table_container" class="csvTable"></div>
     //   <svg ref={ref} width="1500" height="1500" />
     // </div>
-    <div>
-      <table border="0" cellpadding="10">
+    <div class="App-table">
+      <div class="column-map">
+        <div id="table_container" class="csvTable"></div>
+        <div id="legend_container"></div>
+      </div>
+      <svg class="App-svg" ref={ref} width="1500" height="1500" />
+      {/* <table border="0" cellpadding="10">
         <tr>
           <td>
             <div id="table_container" class="csvTable"></div>
           </td>
           <td>
-            <svg ref={ref} width="1500" height="1500" />
-          </td>
-          <td>
             <div id="legend_container"></div>
           </td>
+          <td>
+            <svg ref={ref} width="1500" height="1500" />
+          </td>
         </tr>
-      </table>
+      </table> */}
     </div>
   );
 }
