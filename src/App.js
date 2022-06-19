@@ -16,11 +16,14 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import CreateStudent from "./components/create-student.component";
 import LoginStudent from "./components/login-student.component";
 import LoginUser from "./components/login-user.component";
+import CreateUser from "./components/create-user.component";
 import EditStudent from "./components/edit-student.component";
 import StudentList from "./components/student-list.component";
 import UserPage from "./components/user-page.component";
+import AdminPage from "./components/admin-page.component";
 import Homepage from "./components/homepage.component";
 import News from "./components/news.component";
+import NewsPage from "./components/news-page.component";
 import LvivMap from "./components/lvivmap.component";
 import CovidStat from "./components/covid-statistic.component";
 import UseOfEnglish from "./components/use-of-english.component";
@@ -153,22 +156,16 @@ function App() {
               <div className="wrapper">
                 <Routes>
                   <Route
-                    exact
-                    path="/"
-                    component={(props) => <CreateStudent {...props} />}
-                  />
-                  {/* <Route
-                    exact
-                    path="/homepage"
-                    element={(props) => <Homepage {...props} />}
-                  /> */}
-
-                  <Route
                     path="/homepage"
                     element={<Homepage authed={true} />}
                   />
 
                   <Route path="/news" element={<News authed={true} />} />
+
+                  <Route
+                    path="/news-page"
+                    element={<NewsPage authed={true} />}
+                  />
 
                   <Route
                     path="/covid-statistic"
@@ -179,7 +176,17 @@ function App() {
 
                   <Route
                     path="/login-user"
-                    element={<LoginUser authed={true} />}
+                    element={<LoginUser authed={true} onLogin={setUserName} />}
+                  />
+
+                  <Route
+                    path="/admin-page"
+                    element={<AdminPage authed={true} />}
+                  />
+
+                  <Route
+                    path="/create-user"
+                    element={<CreateUser authed={true} />}
                   />
 
                   <Route

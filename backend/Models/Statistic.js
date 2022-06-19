@@ -1,18 +1,24 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let statisticSchema = new Schema({
-  name: {
-    type: String
+let statisticSchema = new Schema(
+  {
+    name: {
+      type: String,
+    },
+    statstype: {
+      type: String,
+    },
+    timestamp: {
+      type: String,
+    },
+    statslink: {
+      type: String,
+    },
   },
-  timestamp: {
-    type: String
-  },
-  statslink: {
-    type: String
+  {
+    collection: "statistics",
   }
-}, {
-    collection: 'news'
-  })
+);
 
-module.exports = mongoose.model('Statistic', statisticSchema)
+module.exports = mongoose.model("Statistic", statisticSchema);

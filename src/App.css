@@ -8,6 +8,7 @@ body,
 .App {
   text-align: center;
   background-color: #e3e6eb;
+  min-height: 100vh;
   height: 100%;
 }
 
@@ -87,12 +88,33 @@ body,
   margin-top: 20vh;
 }
 
+.sidebars {
+  margin: 20px;
+  margin-left: 30px;
+  width: 20%;
+  max-height: 350px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20vh;
+}
+
 .sidetext {
   font-family: "Open Sans", sans-serif;
   display: flex;
   flex-direction: column;
   text-align: left;
   line-height: 170%;
+}
+
+/* .radio-button-st {
+  background-color: #2980b9 !important;
+} */
+
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
 }
 
 .sidetext-title {
@@ -114,13 +136,21 @@ body,
   color: red;
 }
 
+/* .siderbar > .card > .card-body {
+  height: auto;
+}
+
+.card-body {
+  height: 200px !important;
+} */
+
 .App-body-news {
   width: 100%;
   margin-bottom: 120px;
   height: 100%;
   display: flex;
   justify-content: center;
-  /* flex-basis: 100%; */
+  flex-basis: 100%;
   flex-wrap: wrap;
 }
 
@@ -158,4 +188,15 @@ body {
 
 .wrapper {
   width: 100% !important;
+}
+
+.App-admin {
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.form-admin {
+  margin-bottom: 40px;
+  padding: 30px;
+  width: 50%;
 }

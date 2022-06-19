@@ -142,11 +142,10 @@ export default function LvivMap(props) {
       .style("font-size", "20px");
 
     /* Data has key "county" and value "rental" - i.e. average rental price per county */
-    console.log("queue");
+
     queue()
       .defer(
         d3.csv,
-        // "https://gist.githubusercontent.com/Gordion/7fdbf9c919564fc1773622cbd552060f/raw/15c6efd7a35c10469674b7ff735c1a05cb8fa9af/rentals-2015-bycounty.csv",
         "https://gist.githubusercontent.com/Gordion/038bb3fb3e275987c16b4134e5b0db7a/raw/708e93688d399c8812b3bccaed77c1d4c5010fe6/Covid280122.csv",
         data
       )
@@ -154,31 +153,20 @@ export default function LvivMap(props) {
 
     function ready(error, data) {
       if (error) throw error;
-
-      console.log("data", data);
       d3.map(data, function (d) {
-        // rateById.set(d.county, +d.rental);
-        console.log(d.region, +d.amount);
         rateById.set(d.Region, +d.Amount);
-        console.log(rateById);
-      }); /* create the data map */
+      });
 
       d3.xml(
-        // "https://gist.githubusercontent.com/Gordion/9effa1d8e6e4051b49a983fedd8fb1f0/raw/6c581f5facecdd0887491a62a43a2b038956b5ea/ireland.svg",
         "https://gist.githubusercontent.com/Gordion/c8a9d421acf282e764cdd21eade29e7c/raw/bee765bf0197638f486609f9f0650428a93174b2/Lviv_location_map.svg",
         "image/svg+xml",
         function (error, xml) {
           console.log(xml);
-          /* embed the SVG map */
           if (error) throw error;
 
-          var countyTable = tabulate(data, [
-            "Region",
-            "Amount",
-          ]); /* render the data table */
+          var countyTable = tabulate(data, ["Region", "Amount"]);
 
-          var svgMap =
-            xml.getElementsByTagName("g")[0]; /* set svgMap to root g */
+          var svgMap = xml.getElementsByTagName("g")[0];
 
           ireland = main_chart_svg
             .node()
@@ -212,12 +200,10 @@ export default function LvivMap(props) {
           d3.select(ireland)
             .selectAll("path")
             .on("mouseover", function (d) {
-              console.log("mouseover", d);
               if (d3.select(this).classed("active")) return;
               d3.select(this).attr("class", "hover");
             })
             .on("mouseout", function (d) {
-              console.log("mouseout", d);
               if (d3.select(this).classed("active")) return;
               d3.select(this).attr("class", function (d) {
                 return quantize(rateById.get(this.id));
@@ -407,34 +393,13 @@ export default function LvivMap(props) {
     // d3.select(node).style("height", "650px");
   }, []);
 
-  // setMapD3(node);
-
-  // const RD3Component = rd3.Component;
-
   return (
-    // <div>
-    //   <div id="table_container" class="csvTable"></div>
-    //   <svg ref={ref} width="1500" height="1500" />
-    // </div>
     <div class="App-table">
       <div class="column-map">
         <div id="table_container" class="csvTable"></div>
         <div id="legend_container"></div>
       </div>
       <svg class="App-svg" ref={ref} width="1500" height="1500" />
-      {/* <table border="0" cellpadding="10">
-        <tr>
-          <td>
-            <div id="table_container" class="csvTable"></div>
-          </td>
-          <td>
-            <div id="legend_container"></div>
-          </td>
-          <td>
-            <svg ref={ref} width="1500" height="1500" />
-          </td>
-        </tr>
-      </table> */}
     </div>
   );
 }
