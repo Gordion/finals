@@ -9,6 +9,7 @@ var News = require("./Models/News.js");
 const studentRoute = require("../backend/routes/student.route");
 const userRoute = require("../backend/routes/user.route");
 const newsRoute = require("../backend/routes/news.route");
+const statRoute = require("../backend/routes/statistics.route");
 const bcrypt = require("bcryptjs");
 
 mongoose.Promise = global.Promise;
@@ -35,6 +36,7 @@ app.use(
 app.use(cors());
 app.use("/user", userRoute);
 app.use("/news", newsRoute);
+app.use("/statistics", statRoute);
 
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {

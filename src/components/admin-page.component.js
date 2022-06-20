@@ -30,6 +30,7 @@ export default class AdminPage extends Component {
     super(props);
     this.state = {
       newsCollection: [],
+      statsCollection: [],
       name: "",
       description: "",
       timestamp: new Date(),
@@ -55,6 +56,55 @@ export default class AdminPage extends Component {
         });
       });
     this.setState({ name: "", description: "", timestamp: new Date() });
+  };
+
+  onSubmitStat = (e) => {
+    e.preventDefault();
+    const { namestat, statstype, timestampstat, statslink } = this.state;
+    console.log(namestat, statstype, timestampstat, statslink);
+
+    const statsObject = {
+      namestat: this.state.namestat,
+      statstype: this.state.statstype,
+      timestampstat: this.state.timestampstat,
+      statslink: this.state.statslink,
+    };
+    axios
+      // .post("http://localhost:4000/statistics/set-statistic", {
+      //   ...statsObject,
+      // })
+      .post("http://localhost:4000/statistics/set-statistic", {
+        statstype: this.state.statstype,
+        statsObject,
+      })
+      .then((res) => {
+        console.log(res.data);
+        this.setState({
+          statsCollection: this.state.statsCollection.concat(res.data),
+        });
+      });
+    this.setState({
+      namestat: "",
+      statstype: "",
+      timestamp: new Date(),
+      statslink: "",
+    });
+  };
+
+  onChangeNameStat = (e) => {
+    this.setState({ namestat: e.target.value });
+  };
+
+  onChangeTimestampStat = (e) => {
+    this.setState({ timestampstat: e.target.value });
+  };
+
+  onChangeStatsType = (e) => {
+    this.setState({ statstype: e.target.value });
+  };
+
+  onChangeStatsLink = (e) => {
+    this.setState({ statslink: e.target.value });
   };
 
   onChangeName = (e) => {
@@ -234,26 +284,44 @@ export default class AdminPage extends Component {
                 controlId="exampleForm.ControlInput2"
               >
                 <Form.Label>Title</Form.Label>
-                <Form.Control type="text" />
+                <Form.Control
+                  value={this.state.namestat}
+                  onChange={this.onChangeNameStat}
+                  type="text"
+                />
               </Form.Group>
-              <Form.Control as="select">
-                <option value="Cov">Covid</option>
-                <option value="Vac">Vaccination</option>
-                <option value="Map">Map</option>
+              <Form.Label>Type of Statistic</Form.Label>
+              <Form.Control
+                value={this.state.statstype}
+                onChange={this.onChangeStatsType}
+                as="select"
+              >
+                <option value="cov">Covid</option>
+                <option value="vac">Vaccination</option>
+                <option value="map">Map</option>
               </Form.Control>
               <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlInput2"
               >
                 <Form.Label>Timestamp</Form.Label>
-                <Form.Control type="date"></Form.Control>
+                <Form.Control
+                  value={this.state.timestampstat}
+                  onChange={this.onChangeTimestampStat}
+                  type="date"
+                ></Form.Control>
               </Form.Group>
               <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlTextarea2"
               >
                 <Form.Label>Data link</Form.Label>
-                <Form.Control as="textarea" rows={3} />
+                <Form.Control
+                  value={this.state.statslink}
+                  onChange={this.onChangeStatsLink}
+                  as="textarea"
+                  rows={3}
+                />
               </Form.Group>
               <Button
                 variant="primary"
@@ -261,6 +329,7 @@ export default class AdminPage extends Component {
                 block="block"
                 type="submit"
                 className="mt-4"
+                onClick={this.onSubmitStat}
               >
                 Submit
               </Button>

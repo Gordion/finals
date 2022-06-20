@@ -18,6 +18,7 @@ import LoginStudent from "./components/login-student.component";
 import LoginUser from "./components/login-user.component";
 import CreateUser from "./components/create-user.component";
 import EditStudent from "./components/edit-student.component";
+import VacStat from "./components/vac-statistic.component";
 import StudentList from "./components/student-list.component";
 import UserPage from "./components/user-page.component";
 import AdminPage from "./components/admin-page.component";
@@ -81,7 +82,7 @@ function App() {
                 </Link>
               </Navbar.Brand>
               <Navbar.Brand>
-                <Link to={"/listening"} className="nav-link">
+                <Link to={"/vac-statistic"} className="nav-link">
                   Вакцинація
                 </Link>
               </Navbar.Brand>
@@ -96,7 +97,7 @@ function App() {
                 </Link>
               </Navbar.Brand>
               <Nav className="justify-content-end" />
-              <Nav>
+              {/* <Nav>
                 {userName == "Admin" && (
                   <Nav>
                     <Link to={"/student-list"} className="nav-link">
@@ -119,7 +120,7 @@ function App() {
                     Авторизація
                   </Link>
                 </Nav>
-              )}
+              )} */}
               <Nav className="justify-content-end" />
               <Nav>
                 <Nav>
@@ -129,8 +130,8 @@ function App() {
                       title={userName}
                       menuVariant="dark"
                     >
-                      <NavDropdown.Item href="/user-page">
-                        Профіль
+                      <NavDropdown.Item href="/admin-page">
+                        Адмін панель
                       </NavDropdown.Item>
                       <NavDropdown.Item
                         href="/homepage"
@@ -170,6 +171,11 @@ function App() {
                   <Route
                     path="/covid-statistic"
                     element={<CovidStat authed={true} />}
+                  />
+
+                  <Route
+                    path="/vac-statistic"
+                    element={<VacStat authed={true} />}
                   />
 
                   <Route path="/lvivmap" element={<LvivMap authed={true} />} />

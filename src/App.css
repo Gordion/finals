@@ -200,3 +200,11 @@ body {
   padding: 30px;
   width: 50%;
 }
+
+.wrapper-users {
+  margin-top: 30px;
+}
+
+.data-tbody {
+  vertical-align: middle;
+}
