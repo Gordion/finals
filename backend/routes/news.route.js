@@ -32,6 +32,32 @@ router.route("/").get((req, res) => {
   });
 });
 
+// router.post("/get-lastnews", async (req, res) => {
+//   console.log("req", req);
+//   const { _id } = req.body;
+//   var filter = { _id: _id };
+
+//   News.find(filter, function (err, doc) {
+//     console.log("text", err, doc);
+//     if (err) return res.send(500, { error: err });
+//     return res.send(doc);
+//   });
+// });
+
+router.get("/get-lastnews", async (req, res) => {
+  // console.log("req", req);
+  // const { statstype } = req.body;
+  // var filter = { statstype: "map" };
+
+  News.findOne()
+    .sort({ _id: -1 })
+    .exec(function (err, doc) {
+      console.log("text", err, doc);
+      if (err) return res.send(500, { error: err });
+      return res.send(doc);
+    });
+});
+
 router.route("/delete-news/:id").delete((req, res, next) => {
   newsSchema.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {

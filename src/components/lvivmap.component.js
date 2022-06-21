@@ -149,7 +149,12 @@ export default function LvivMap(props) {
           .text(function (d, i) {
             var extent = quantize.invertExtent(d);
             //extent will be a two-element array, format it however you want:
-            return format(extent[0]) + " - " + format(+extent[1]);
+            console.log("d", d);
+            if (d == "g8-9") {
+              return format(extent[0]) + " + ";
+            } else {
+              return format(extent[0]) + " - " + format(+extent[1]);
+            }
           })
           .style("font-family", "sans-serif")
           .style("font-size", "20px");
@@ -235,17 +240,43 @@ export default function LvivMap(props) {
                 .selectAll("g")
                 .append("svg:text")
                 .text(function (d) {
+                  console.log("city", d, this.parentNode.id);
                   return this.parentNode.id;
+                })
+                .attr("style", function (d) {
+                  if (this.parentNode.id === "Lviv") {
+                    return "fill: #fff; stroke: #fff;";
+                  }
                 })
                 .attr("x", function (d) {
                   // console.log(d3.select(this.parentNode).select("path").attr("d"));
                   //return 600;
                   //d3.select(ireland).select("path")
+                  if (this.parentNode.id === "Sambir") {
+                    return "150";
+                  }
+
                   return getBoundingBox(
                     d3.select(this.parentNode).select("path")
                   )[4];
                 })
                 .attr("y", function (d) {
+                  if (this.parentNode.id === "Sambir") {
+                    return "780";
+                  }
+                  if (this.parentNode.id === "Drohobych") {
+                    return "850";
+                  }
+                  if (this.parentNode.id === "Zolochiv") {
+                    return "530";
+                  }
+                  if (this.parentNode.id === "Chervonograd") {
+                    return "230";
+                  }
+                  if (this.parentNode.id === "Lviv") {
+                    return "530";
+                  }
+
                   return getBoundingBox(
                     d3.select(this.parentNode).select("path")
                   )[5];
@@ -412,7 +443,20 @@ export default function LvivMap(props) {
         <div id="table_container" class="csvTable"></div>
         <div id="legend_container"></div>
       </div>
-      <svg class="App-svg" ref={ref} width="1500" height="1500" />
+      <div style={{ marginTop: -300, height: 700, width: 700, padding: 50 }}>
+        <svg
+          class="App-svg"
+          ref={ref}
+          width="100%"
+          height="100%"
+          viewbox="0 0 1500 1500"
+          style={{
+            transform: "scale(0.65)",
+            transformOrigin: "0 0",
+            overflow: "inherit",
+          }}
+        />
+      </div>
     </div>
   );
 }

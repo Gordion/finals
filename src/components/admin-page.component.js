@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import banner from "./maxresdefault.jpg";
 import regions from "./Lviv_regions.svg";
 import NewsTableRow from "./news-table";
+import moment from "moment";
 
 // const data = [
 //   {
@@ -45,7 +46,7 @@ export default class AdminPage extends Component {
     const newsObject = {
       name: this.state.name,
       description: this.state.description,
-      timestamp: this.state.timestamp,
+      timestamp: this.state.formattedTimestamp,
     };
     axios
       .post("http://localhost:4000/news/set-news", newsObject)
@@ -66,7 +67,7 @@ export default class AdminPage extends Component {
     const statsObject = {
       namestat: this.state.namestat,
       statstype: this.state.statstype,
-      timestampstat: this.state.timestampstat,
+      timestampstat: this.state.formattedTimestampStat,
       statslink: this.state.statslink,
     };
     axios
@@ -96,7 +97,12 @@ export default class AdminPage extends Component {
   };
 
   onChangeTimestampStat = (e) => {
-    this.setState({ timestampstat: e.target.value });
+    const date = e.target.value;
+    const formattedDate = moment(date).format("DD.MM.YYYY");
+    this.setState({
+      timestampstat: date,
+      formattedTimestampStat: formattedDate,
+    });
   };
 
   onChangeStatsType = (e) => {
@@ -112,7 +118,12 @@ export default class AdminPage extends Component {
   };
 
   onChangeTimestamp = (e) => {
-    this.setState({ timestamp: e.target.value });
+    const date = e.target.value;
+    const formattedDate = moment(date).format("DD.MM.YYYY");
+    this.setState({
+      timestamp: date,
+      formattedTimestamp: formattedDate,
+    });
   };
 
   onChangeDescription = (e) => {
@@ -128,10 +139,24 @@ export default class AdminPage extends Component {
       .catch(function (error) {
         console.log(error);
       });
+    axios
+      .get("http://localhost:4000/statistics")
+      .then((res) => {
+        this.setState({ statsCollection: res.data });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
-  dataTable = () => {
-    return this.state.newsCollection.map((data, i) => {
-      return <NewsTableRow obj={data} key={i} onRowDelete={this.deleteRow} />;
+  dataTable = (collection, hideDelete) => {
+    return collection.map((data, i) => {
+      return (
+        <NewsTableRow
+          obj={data}
+          key={i}
+          onRowDelete={!hideDelete ? this.deleteRow : null}
+        />
+      );
     });
   };
 
@@ -143,6 +168,7 @@ export default class AdminPage extends Component {
       ),
     });
   };
+
   // onSubmit(e) {
   //   e.preventDefault();
   //   console.log(0);
@@ -188,60 +214,61 @@ export default class AdminPage extends Component {
     return (
       <div className="App">
         <div className="App-admin">
-          <div className="form-admin">
-            <h2>News</h2>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  value={this.state.name}
-                  onChange={this.onChangeName}
-                  type="text"
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Timestamp</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={this.state.timestamp}
-                  onChange={this.onChangeTimestamp}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>News text</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={this.state.description}
-                  onChange={this.onChangeDescription}
-                />
-              </Form.Group>
-              <Button
-                variant="primary"
-                size="lg"
-                block="block"
-                type="submit"
-                className="mt-4"
-                onClick={this.onSubmit}
-              >
-                Submit
-              </Button>
-            </Form>
-            {/* <ul>
+          <div className="form-container">
+            <div className="form-admin">
+              <h2>News</h2>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    value={this.state.name}
+                    onChange={this.onChangeName}
+                    type="text"
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Timestamp</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={this.state.timestamp}
+                    onChange={this.onChangeTimestamp}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>News text</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={6}
+                    value={this.state.description}
+                    onChange={this.onChangeDescription}
+                  />
+                </Form.Group>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  block="block"
+                  type="submit"
+                  className="mt-4"
+                  onClick={this.onSubmit}
+                >
+                  Submit
+                </Button>
+              </Form>
+              {/* <ul>
                {this.state.News.map((item) => (
                 <li>{item.title}</li>
               ))} 
             </ul> */}
-            {/* <tr>
+              {/* <tr>
                 <td>
                     {this.props.obj._id}
                 </td>
@@ -252,88 +279,107 @@ export default class AdminPage extends Component {
                     {this.props.obj.email}
                 </td>
             </tr> */}
+            </div>
 
-            <div className="wrapper-users">
-              <div className="container">
-                <table className="table table-striped table-blue">
-                  <thead className="thead-blue">
-                    <tr>
-                      <td>Name</td>
-                      <td>Timestamp</td>
-                      <td>Delete</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* <tr>
+            <div className="form-admin">
+              <h2>Statistic</h2>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput2"
+                >
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    value={this.state.namestat}
+                    onChange={this.onChangeNameStat}
+                    type="text"
+                  />
+                </Form.Group>
+                <Form.Label>Type of Statistic</Form.Label>
+                <Form.Control
+                  value={this.state.statstype}
+                  onChange={this.onChangeStatsType}
+                  as="select"
+                >
+                  <option value="cov">Covid</option>
+                  <option value="vac">Vaccination</option>
+                  <option value="map">Map</option>
+                </Form.Control>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput2"
+                >
+                  <Form.Label>Timestamp</Form.Label>
+                  <Form.Control
+                    value={this.state.timestampstat}
+                    onChange={this.onChangeTimestampStat}
+                    type="date"
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea2"
+                >
+                  <Form.Label>Data link</Form.Label>
+                  <Form.Control
+                    value={this.state.statslink}
+                    onChange={this.onChangeStatsLink}
+                    as="textarea"
+                    rows={3}
+                  />
+                </Form.Group>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  block="block"
+                  type="submit"
+                  className="mt-4"
+                  onClick={this.onSubmitStat}
+                >
+                  Submit
+                </Button>
+              </Form>
+            </div>
+          </div>
+
+          <div className="stats-container">
+            <div className="stats-column">
+              <table className="table table-striped table-blue">
+                <thead className="thead-blue">
+                  <tr>
+                    <td>Name</td>
+                    <td>Timestamp</td>
+                    <td>Delete</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* <tr>
                       <td>{this.props.obj._id}</td>
                       <td>{this.props.obj.name}</td>
                       <td>{this.props.obj.email}</td>
                     </tr> */}
-                    {this.dataTable()}
-                  </tbody>
-                </table>
-              </div>
+                  {this.dataTable(this.state.newsCollection)}
+                </tbody>
+              </table>
             </div>
-          </div>
-
-          <div className="form-admin">
-            <h2>Statistic</h2>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput2"
-              >
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  value={this.state.namestat}
-                  onChange={this.onChangeNameStat}
-                  type="text"
-                />
-              </Form.Group>
-              <Form.Label>Type of Statistic</Form.Label>
-              <Form.Control
-                value={this.state.statstype}
-                onChange={this.onChangeStatsType}
-                as="select"
-              >
-                <option value="cov">Covid</option>
-                <option value="vac">Vaccination</option>
-                <option value="map">Map</option>
-              </Form.Control>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput2"
-              >
-                <Form.Label>Timestamp</Form.Label>
-                <Form.Control
-                  value={this.state.timestampstat}
-                  onChange={this.onChangeTimestampStat}
-                  type="date"
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea2"
-              >
-                <Form.Label>Data link</Form.Label>
-                <Form.Control
-                  value={this.state.statslink}
-                  onChange={this.onChangeStatsLink}
-                  as="textarea"
-                  rows={3}
-                />
-              </Form.Group>
-              <Button
-                variant="primary"
-                size="lg"
-                block="block"
-                type="submit"
-                className="mt-4"
-                onClick={this.onSubmitStat}
-              >
-                Submit
-              </Button>
-            </Form>
+            <div className="stats-column">
+              <table className="table table-striped table-blue">
+                <thead className="thead-blue">
+                  <tr>
+                    <td>Name</td>
+                    <td>Timestamp</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* <tr>
+                      <td>{this.props.obj._id}</td>
+                      <td>{this.props.obj.name}</td>
+                      <td>{this.props.obj.email}</td>
+                    </tr> */}
+                  {this.dataTable(this.state.statsCollection, true)}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

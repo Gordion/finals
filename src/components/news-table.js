@@ -26,11 +26,13 @@ export default class NewsTableRow extends Component {
       <tr>
         <td className="data-tbody">{this.props.obj.name}</td>
         <td className="data-tbody">{this.props.obj.timestamp}</td>
-        <td className="data-tbody">
-          <Button onClick={this.deleteNews} size="sm" variant="danger">
-            Delete
-          </Button>
-        </td>
+        {this.props.onRowDelete && (
+          <td className="data-tbody">
+            <Button onClick={this.deleteNews} size="sm" variant="danger">
+              Delete
+            </Button>
+          </td>
+        )}
       </tr>
     );
   }

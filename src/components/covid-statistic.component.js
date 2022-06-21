@@ -88,12 +88,12 @@ export const options = {
 
 const labels = [
   "Львів",
-  "Стрий",
-  "Самбір",
-  "Червоноград",
   "Золочів",
   "Дрогобич",
+  "Самбір",
+  "Стрий",
   "Яворів",
+  "Червоноград",
 ];
 
 // export const data = {
@@ -120,7 +120,15 @@ const labels = [
 function convertPieData(chartData) {
   const cases = chartData.map((d) => parseInt(d.Cases));
   return {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Test"],
+    labels: [
+      "Львів",
+      "Золочів",
+      "Дрогобич",
+      "Самбір",
+      "Стрий",
+      "Яворів",
+      "Червоноград",
+    ],
     datasets: [
       {
         label: "# of Votes",
@@ -132,7 +140,7 @@ function convertPieData(chartData) {
           "rgba(75, 192, 192, 0.2)",
           "rgba(153, 102, 255, 0.2)",
           "rgba(255, 159, 64, 0.2)",
-          "rgba(153, 159, 200, 0.2)",
+          "rgba(59, 227, 149, 0.2)",
         ],
         borderColor: [
           "rgba(255, 99, 132, 1)",
@@ -141,7 +149,7 @@ function convertPieData(chartData) {
           "rgba(75, 192, 192, 1)",
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
-          "rgba(255, 100, 78, 1)",
+          "rgba(59, 227, 149, 1)",
         ],
         borderWidth: 1,
       },
@@ -223,7 +231,12 @@ export default function CovidStat() {
       }}
     >
       {value === 1 && barData?.datasets && (
-        <Bar classname="bardiagram" options={options} data={barData} />
+        <Bar
+          classname="bardiagram"
+          options={options}
+          data={barData}
+          style={{ marginTop: 30 }}
+        />
       )}
       {value === 2 && pieData?.datasets && (
         <Pie
@@ -231,6 +244,7 @@ export default function CovidStat() {
           // height={"500px"}
           classname="piechart"
           data={pieData}
+          style={{ marginTop: 30 }}
         />
       )}
 

@@ -46,7 +46,7 @@ export default class News extends Component {
     return (
       <div className="App">
         <div className="App-body-news">
-          {this.state.newsCollection.map((item) => (
+          {this.state.newsCollection.reverse().map((item) => (
             <div className="card-temp">
               <Card
                 classname="card-news"

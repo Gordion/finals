@@ -111,7 +111,7 @@ rect {
   fill: rgb(0, 68, 27);
 }
 
-.g0-9 {
+/* .g0-9 {
   fill: rgb(255, 245, 240) !important;
 }
 .g1-9 {
@@ -137,6 +137,34 @@ rect {
 }
 .g8-9 {
   fill: rgb(103, 0, 13) !important;
+} */
+
+.g0-9 {
+  fill: rgb(247, 251, 255) !important;
+}
+.g1-9 {
+  fill: rgb(222, 235, 247) !important;
+}
+.g2-9 {
+  fill: rgb(198, 219, 239) !important;
+}
+.g3-9 {
+  fill: rgb(158, 202, 225) !important;
+}
+.g4-9 {
+  fill: rgb(107, 174, 214) !important;
+}
+.g5-9 {
+  fill: rgb(66, 146, 198) !important;
+}
+.g6-9 {
+  fill: rgb(33, 113, 181) !important;
+}
+.g7-9 {
+  fill: rgb(8, 81, 156) !important;
+}
+.g8-9 {
+  fill: rgb(8, 48, 107) !important;
 }
 
 .text {
@@ -145,7 +173,7 @@ rect {
   font-family: "sans-serif";
   stroke-width: 0.5;
   fill: #333;
-  font-size: 15pt;
+  font-size: 25pt;
 }
 
 .csvTable table {
@@ -278,6 +306,6 @@ tbody {
 .App-svg {
   /* width: 50%;
   height: 50%; */
-  margin-left: -5%;
+  margin-left: -12%;
   margin-top: 2%;
 }

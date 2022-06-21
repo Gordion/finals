@@ -12,7 +12,13 @@ import Footer from "./Footer";
 import regions from "./Lviv_regions.svg";
 import "./App.css";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  NavLink,
+} from "react-router-dom";
 import CreateStudent from "./components/create-student.component";
 import LoginStudent from "./components/login-student.component";
 import LoginUser from "./components/login-user.component";
@@ -23,6 +29,7 @@ import StudentList from "./components/student-list.component";
 import UserPage from "./components/user-page.component";
 import AdminPage from "./components/admin-page.component";
 import Homepage from "./components/homepage.component";
+import Helpful from "./components/helpful.component";
 import News from "./components/news.component";
 import NewsPage from "./components/news-page.component";
 import LvivMap from "./components/lvivmap.component";
@@ -62,29 +69,34 @@ function App() {
           <Navbar bg="dark" variant="dark">
             <Container>
               <Navbar.Brand>
-                <Link to={"/homepage"} className="nav-link">
-                  Home
-                </Link>
+                <NavLink to={"/"} className="nav-link">
+                  Головна
+                </NavLink>
               </Navbar.Brand>
               <Navbar.Brand>
-                <Link to={"/news"} className="nav-link">
+                <NavLink
+                  to={"/news"}
+                  className={({ isActive }) =>
+                    isActive ? "active nav-link" : "nav-link"
+                  }
+                >
                   Новини
-                </Link>
+                </NavLink>
               </Navbar.Brand>
               <Navbar.Brand>
-                <Link to={"/covid-statistic"} className="nav-link">
+                <NavLink to={"/covid-statistic"} className="nav-link">
                   Захворюваність
-                </Link>
+                </NavLink>
               </Navbar.Brand>
               <Navbar.Brand>
-                <Link to={"/lvivmap"} className="nav-link">
+                <NavLink to={"/lvivmap"} className="nav-link">
                   Карта області
-                </Link>
+                </NavLink>
               </Navbar.Brand>
               <Navbar.Brand>
-                <Link to={"/vac-statistic"} className="nav-link">
+                <NavLink to={"/vac-statistic"} className="nav-link">
                   Вакцинація
-                </Link>
+                </NavLink>
               </Navbar.Brand>
               {/* <Navbar.Brand>
                 <Link to={'/login-user'} className="nav-link">
@@ -92,9 +104,9 @@ function App() {
                 </Link>
               </Navbar.Brand> */}
               <Navbar.Brand>
-                <Link to={"/grammar"} className="nav-link">
+                <NavLink to={"/helpful"} className="nav-link">
                   Актуальна інформація
-                </Link>
+                </NavLink>
               </Navbar.Brand>
               <Nav className="justify-content-end" />
               {/* <Nav>
@@ -133,15 +145,12 @@ function App() {
                       <NavDropdown.Item href="/admin-page">
                         Адмін панель
                       </NavDropdown.Item>
-                      <NavDropdown.Item
-                        href="/homepage"
-                        onClick={() => onLogout()}
-                      >
+                      <NavDropdown.Item href="/" onClick={() => onLogout()}>
                         Вийти
                       </NavDropdown.Item>
                     </NavDropdown>
                   ) : (
-                    <Link to={"/login-student"} className="nav-link">
+                    <Link to={"/login-user"} className="nav-link">
                       COVID-19
                     </Link>
                   )}
@@ -156,10 +165,7 @@ function App() {
             <Col md={12}>
               <div className="wrapper">
                 <Routes>
-                  <Route
-                    path="/homepage"
-                    element={<Homepage authed={true} />}
-                  />
+                  <Route path="/" element={<Homepage authed={true} />} />
 
                   <Route path="/news" element={<News authed={true} />} />
 
@@ -167,6 +173,8 @@ function App() {
                     path="/news-page"
                     element={<NewsPage authed={true} />}
                   />
+
+                  <Route path="/helpful" element={<Helpful authed={true} />} />
 
                   <Route
                     path="/covid-statistic"
@@ -187,7 +195,7 @@ function App() {
 
                   <Route
                     path="/admin-page"
-                    element={<AdminPage authed={true} />}
+                    element={userName ? <AdminPage authed={true} /> : null}
                   />
 
                   <Route

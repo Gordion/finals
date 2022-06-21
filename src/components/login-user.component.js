@@ -47,13 +47,13 @@ class LoginUser extends Component {
         const { _id, name } = res.data.user;
         localStorage.setItem("user", JSON.stringify({ _id, name }));
         console.log(this.props, "props");
-        this.props.navigate("/homepage");
+        this.props.navigate("/admin-page");
         this.props.onLogin(name);
+      })
+      .catch((e) => {
+        console.log(">>>", e);
+        alert(/*e.response?.data?.error ||*/ "Неправильний логін або пароль");
       });
-    // .catch((e) => {
-    //   console.log(">>>", e);
-    //   alert("Неправильний логін або пароль");
-    // });
 
     this.setState({ name: "", password: "" });
   }

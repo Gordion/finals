@@ -13,7 +13,8 @@ body,
 }
 
 .App-logo {
-  height: 60%;
+  /* height: 85%; */
+  width: 90%;
   pointer-events: none;
 }
 
@@ -24,14 +25,16 @@ body,
 }
 
 .App-city {
-  height: 125vh;
+  /* height: 125vh; */
+  /* height: 100vh; */
   display: flex;
   /* flex-direction: column; */
   /* align-items: center; */
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  width: 100%;
+  /* width: 100%; */
+  flex: 1;
   margin-top: 50px;
 }
 
@@ -51,6 +54,38 @@ body,
 
 .App-link {
   color: #61dafb;
+}
+
+.slider-div {
+  height: 75vh;
+}
+
+.slider-img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+/* .slick-dots {
+  margin-bottom: 10px;
+} */
+
+.slider-new {
+  margin-top: 35px;
+}
+
+.slick-arrow {
+  display: none !important;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #fff !important;
+  text-decoration: underline;
+}
+
+.nav-link.active {
+  text-decoration: underline;
 }
 
 .edit-link {
@@ -89,13 +124,15 @@ body,
 }
 
 .sidebars {
-  margin: 20px;
-  margin-left: 30px;
-  width: 20%;
-  max-height: 350px;
-  display: flex;
-  justify-content: center;
+  /* margin: 20px; */
   margin-top: 20vh;
+  /* margin-left: 30px; */
+  padding: 50px;
+  /* width: 20%; */
+  /* max-height: 350px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidetext {
@@ -104,6 +141,14 @@ body,
   flex-direction: column;
   text-align: left;
   line-height: 170%;
+}
+
+.bardiagram {
+  margin-top: 30px !important;
+}
+
+.piechart {
+  margin-top: 30px !important;
 }
 
 /* .radio-button-st {
@@ -149,7 +194,7 @@ body,
   margin-bottom: 120px;
   height: 100%;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   flex-basis: 100%;
   flex-wrap: wrap;
 }
@@ -158,7 +203,7 @@ body,
   margin-right: 50px;
   margin-left: 50px;
   margin-top: 50px;
-  flex-grow: 1;
+  /* flex-grow: 1; */
 }
 
 .form-wrapper,
@@ -176,6 +221,7 @@ body,
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: -150px;
 }
 
 .App-table {
@@ -191,7 +237,7 @@ body {
 }
 
 .App-admin {
-  display: flex;
+  /* display: flex; */
   /* justify-content: space-between; */
 }
 
@@ -207,4 +253,20 @@ body {
 
 .data-tbody {
   vertical-align: middle;
+}
+
+.form-container {
+  display: flex;
+  flex-basis: 100%;
+}
+
+.stats-container {
+  display: flex;
+  flex-basis: 100%;
+}
+
+.stats-column {
+  margin-bottom: 40px;
+  padding: 0 30px;
+  width: 50%;
 }
